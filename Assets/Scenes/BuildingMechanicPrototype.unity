@@ -430,6 +430,8 @@ MonoBehaviour:
   mouseInputLayer:
     serializedVersion: 2
     m_Bits: 128
+  CellSize: 3
+  buildingPrefab: {fileID: 7694764856782211585, guid: 8d0ddc33a9dc29442b5291be639906fb, type: 3}
 --- !u!4 &563897476
 Transform:
   m_ObjectHideFlags: 0
@@ -533,7 +535,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1687539520439935577, guid: 559c11d47e063bc4991c465e37cd193d, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 340
       objectReference: {fileID: 0}
     - target: {fileID: 1687539520439935577, guid: 559c11d47e063bc4991c465e37cd193d, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -557,7 +559,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1687539520502323006, guid: 559c11d47e063bc4991c465e37cd193d, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 340
       objectReference: {fileID: 0}
     - target: {fileID: 1687539520502323006, guid: 559c11d47e063bc4991c465e37cd193d, type: 3}
       propertyPath: m_AnchoredPosition.y
