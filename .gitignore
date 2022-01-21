@@ -9,8 +9,11 @@
 /[Bb]uilds/
 /[Ll]ogs/
 /[Mm]emoryCaptures/
-/[Aa]ssets/External Assets/
-/[Aa]ssets/Sounds/
+/[Aa]ssets/resource_default/
+/[Aa]ssets/Icons UI/
+/[Aa]ssets/Models/
+/[Aa]ssets/Materials/
+/Packages/
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/[Aa]ssets/**/*.meta
