@@ -14,16 +14,28 @@ public class GameManager : MonoBehaviour
     public int width, length;
     public CameraMovement cameraMovement;
 
-    private bool buildingModeActive = false;
+    private PlayerState state;
+
+    public PlayerSelectionState selectionState;
+    public PlayerBuildingSingleStructureState buildingSingleStructureState;
+
+    private void Awake()
+    {
+        grid = new GridStructure(CellSize, width, length);
+        selectionState = new PlayerSelectionState(this, cameraMovement);
+        buildingSingleStructureState = new PlayerBuildingSingleStructureState(this, placementManager, grid);
+        state = selectionState;
+        state.EnterState();
+    }
 
     private void Start()
     {
         cameraMovement.SetCameraLimits(0, width, 0, length);
         inputManager = FindObjectsOfType<MonoBehaviour>().OfType<IInputManager>().FirstOrDefault();
-        grid = new GridStructure(CellSize, width, length);
 
         inputManager.AddListenerOnPointerDownEvent(HandleInput);
         inputManager.AddListenerOnPointerSecondChangeEvent(HandleInputCameraPan);
+        inputManager.AddListenerOnPointerChangeEvent(HandlePointerChange);
         inputManager.AddListenerOnPointerSecondUpEvent(HandleInputCameraStop);
 
         uiController.AddListenerOnBuildAreaEvent(StartPlacementMode);
@@ -32,35 +44,41 @@ public class GameManager : MonoBehaviour
 
     private void HandleInput(Vector3 mousePosition)
     {
-        var gridPosition = grid.CalculateGridPosition(mousePosition);
-        if(buildingModeActive && grid.IsCellTaken(gridPosition) == false)
-        {
-            placementManager.CreateBuilding(grid, gridPosition);
-        }
+        state.OnInputPointerDown(mousePosition);
         
+    }
+
+    private void HandlePointerChange(Vector3 position)
+    {
+        state.OnInputPointerChange(position);
     }
 
     private void HandleInputCameraStop()
     {
-        cameraMovement.StopCameraMovement();
+        state.OnInputPanUp();
     }
 
     private void HandleInputCameraPan(Vector3 position)
     {
-        if (buildingModeActive == false)
-        {
-            cameraMovement.MoveCamera(position);
-        }
+        state.OnInputPanChange(position);
     }
 
     private void StartPlacementMode()
     {
-        buildingModeActive = true;
+        TransitionToState(buildingSingleStructureState);
     }
 
     private void CancelAction()
     {
-        buildingModeActive = false;
+        state.OnCancel();
     }
+
+
+    public void TransitionToState(PlayerState newState)
+    {
+        this.state = newState;
+        this.state.EnterState();
+    }
+
 
 }
