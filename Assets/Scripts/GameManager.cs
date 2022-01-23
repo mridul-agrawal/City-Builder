@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public CameraMovement cameraMovement;
 
     private PlayerState state;
+    public PlayerState State { get => state; }
 
     public PlayerSelectionState selectionState;
     public PlayerBuildingSingleStructureState buildingSingleStructureState;
