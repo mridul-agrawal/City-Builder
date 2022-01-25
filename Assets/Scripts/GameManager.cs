@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     public IInputManager inputManager;
     public UIController uiController;
     public PlacementManager placementManager;
-    private GridStructure grid;
+    public LayerMask inputMask;
     private BuildingManager buildingManager;
     private int CellSize = 3;
     public int width, length;
@@ -30,21 +30,40 @@ public class GameManager : MonoBehaviour
         demolishState = new PlayerRemoveBuildingState(this, buildingManager);
         state = selectionState;
         state.EnterState();
+#if (UNITY_EDITOR && TEST) || !(UNITY_IOS || UNITY_ANDROID)
+        inputManager = gameObject.AddComponent<InputManager>();
+#endif
+#if (UNITY_IOS || UNITY_ANDROID)
+
+#endif
     }
 
     private void Start()
     {
-        cameraMovement.SetCameraLimits(0, width, 0, length);
-        inputManager = FindObjectsOfType<MonoBehaviour>().OfType<IInputManager>().FirstOrDefault();
+        PrepareGameObjects();
+        AssignInpuListeners();
+        AssignUIListeners();
+    }
 
+    private void PrepareGameObjects()
+    {
+        inputManager.MouseInputMask = inputMask;
+        cameraMovement.SetCameraLimits(0, width, 0, length);
+    }
+
+    private void AssignUIListeners()
+    {
+        uiController.AddListenerOnBuildAreaEvent(StartPlacementMode);
+        uiController.AddListenerOnCancleActionEvent(CancelAction);
+        uiController.AddListenerOnDemolishActionEvent(StartDemolishMode);
+    }
+
+    private void AssignInpuListeners()
+    {
         inputManager.AddListenerOnPointerDownEvent(HandleInput);
         inputManager.AddListenerOnPointerSecondChangeEvent(HandleInputCameraPan);
         inputManager.AddListenerOnPointerChangeEvent(HandlePointerChange);
         inputManager.AddListenerOnPointerSecondUpEvent(HandleInputCameraStop);
-
-        uiController.AddListenerOnBuildAreaEvent(StartPlacementMode);
-        uiController.AddListenerOnCancleActionEvent(CancelAction);
-        uiController.AddListenerOnDemolishActionEvent(StartDemolishMode);
     }
 
     private void HandleInput(Vector3 mousePosition)

@@ -13,8 +13,9 @@ public class InputManager : MonoBehaviour, IInputManager
     private Action OnPointerUpHandler;
     private Action<Vector3> OnPointerChangeHandler;
 
-    public LayerMask mouseInputLayer;
+    public LayerMask mouseInputMask;
 
+    public LayerMask MouseInputMask { get => mouseInputMask; set => mouseInputMask = value; }
 
     private void Update()
     {
@@ -54,14 +55,13 @@ public class InputManager : MonoBehaviour, IInputManager
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         Vector3? position = null;
-        if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity, mouseInputLayer))
+        if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity, mouseInputMask))
         {
             position = hit.point - transform.position;
 
         }
         return position;
     }
-
 
     private void GetPanningPointer()
     {
@@ -80,32 +80,26 @@ public class InputManager : MonoBehaviour, IInputManager
     {
         OnPointerDownHandler += listener;
     }
-
     public void RemoveListenerOnPointerDownEvent(Action<Vector3> listener)
     {
         OnPointerDownHandler -= listener;
     }
-
     public void AddListenerOnPointerSecondChangeEvent(Action<Vector3> listener)
     {
         OnPointerSecondChangeHandler += listener;
     }
-
     public void RemoveListenerOnPointerSecondChangeEvent(Action<Vector3> listener)
     {
         OnPointerSecondChangeHandler -= listener;
     }
-
     public void AddListenerOnPointerSecondUpEvent(Action listener)
     {
         OnPointerSecondUpHandler += listener;
     }
-
     public void RemoveListenerOnPointerSecondUpEvent(Action listener)
     {
         OnPointerSecondUpHandler -= listener;
     }
-
     public void AddListenerOnPointerUpEvent(Action listener)
     {
         OnPointerUpHandler += listener;
@@ -114,12 +108,10 @@ public class InputManager : MonoBehaviour, IInputManager
     {
         OnPointerUpHandler -= listener;
     }
-
     public void AddListenerOnPointerChangeEvent(Action<Vector3> listener)
     {
         OnPointerChangeHandler += listener;
     }
-
     public void RemoveListenerOnPointerChangeEvent(Action<Vector3> listener)
     {
         OnPointerChangeHandler -= listener;
