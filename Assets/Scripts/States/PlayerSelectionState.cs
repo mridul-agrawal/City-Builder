@@ -4,20 +4,11 @@ using UnityEngine;
 
 public class PlayerSelectionState : PlayerState
 {
-    CameraMovement cameraMovement;
-    public PlayerSelectionState(GameManager gameManager, CameraMovement cameraMovement) : base(gameManager)
+    public PlayerSelectionState(GameManager gameManager) : base(gameManager)
     {
-        this.cameraMovement = cameraMovement;
-    }
-    public override void OnInputPanChange(Vector3 panPosition)
-    {
-        cameraMovement.MoveCamera(panPosition);
-    }
 
-    public override void OnInputPanUp()
-    {
-        cameraMovement.StopCameraMovement();
     }
+    
 
     public override void OnCancel()
     {
