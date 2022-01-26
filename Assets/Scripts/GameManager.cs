@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     private int CellSize = 3;
     public int width, length;
     public CameraMovement cameraMovement;
+    public StructureRepository structureRepository;
 
     private PlayerState state;
     public PlayerState State { get => state; }
@@ -22,7 +23,7 @@ public class GameManager : MonoBehaviour
     public PlayerBuildingSingleStructureState buildingSingleStructureState;
     public PlayerRemoveBuildingState demolishState;
     public PlayerBuildingRoadState buildingRoadState;
-    public PlayerBuildingAreaState buildingAreaState;
+    public PlayerBuildingZoneState buildingAreaState;
 
     private void Awake()
     {
@@ -37,11 +38,11 @@ public class GameManager : MonoBehaviour
 
     private void PrepareStates()
     {
-        buildingManager = new BuildingManager(CellSize, width, length, placementManager);
+        buildingManager = new BuildingManager(CellSize, width, length, placementManager,structureRepository);
         selectionState = new PlayerSelectionState(this, cameraMovement);
         demolishState = new PlayerRemoveBuildingState(this, buildingManager);
         buildingSingleStructureState = new PlayerBuildingSingleStructureState(this, buildingManager);
-        buildingAreaState = new PlayerBuildingAreaState(this, buildingManager);
+        buildingAreaState = new PlayerBuildingZoneState(this, buildingManager);
         buildingRoadState = new PlayerBuildingRoadState(this, buildingManager);
         state = selectionState;
         state.EnterState(null);

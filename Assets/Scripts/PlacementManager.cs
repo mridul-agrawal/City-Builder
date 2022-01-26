@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class PlacementManager : MonoBehaviour
 {
-    public GameObject buildingPrefab;
     public Transform Ground;
 
-    public void CreateBuilding(GridStructure grid, Vector3 gridPosition)
+    public void CreateBuilding(GridStructure grid, Vector3 gridPosition, GameObject buildingPrefab)
     {
         GameObject newStructure = Instantiate(buildingPrefab, Ground.position + gridPosition, Quaternion.identity);
         grid.PlaceStructureOnTheGrid(newStructure, gridPosition);

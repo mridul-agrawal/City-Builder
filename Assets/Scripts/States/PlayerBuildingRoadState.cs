@@ -24,7 +24,7 @@ public class PlayerBuildingRoadState : PlayerState
 
     public override void OnInputPointerDown(Vector3 position)
     {
-        buildingManager.PlaceStructureAt(position);
+        buildingManager.PlaceStructureAt(position, this.structureName, StructureType.Road);
     }
 
 }
