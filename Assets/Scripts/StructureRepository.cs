@@ -1,20 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class StructureRepository : MonoBehaviour
 {
     public CollectionSO modelDataCollection;
 
-    // Start is called before the first frame update
-    void Start()
+    public List<string> GetZoneNames()
     {
-
+        return modelDataCollection.zonesList.Select(zone => zone.buildingName).ToList();
     }
 
-    // Update is called once per frame
-    void Update()
+    public List<string> GetSingleStructureNames()
     {
-
+        return modelDataCollection.singleStructureList.Select(facility => facility.buildingName).ToList();
     }
+
+    public string GetRoadStructureName()
+    {
+        return modelDataCollection.roadStructure.buildingName;
+    }
+
 }
