@@ -31,10 +31,10 @@ public class UIController : MonoBehaviour
         buildingMenuPanel.SetActive(false);
         // buildResidentialAreaBtn.onClick.AddListener(OnBuildAreaCallback);
         cancleActionBtn.onClick.AddListener(OnCancleActionCallback);
-        cancleActionBtn.onClick.AddListener(OnCancleActionCallback);
         openBuildMenuBtn.onClick.AddListener(OnOpenBuildMenu);
         demolishBtn.onClick.AddListener(OnDemolishHandler);
         closeBuildMenuBtn.onClick.AddListener(OnCloseMenuHandler);
+        PrepareBuildMenu();
     }
 
     private void PrepareBuildMenu()
@@ -51,6 +51,7 @@ public class UIController : MonoBehaviour
             var button = child.GetComponent<Button>();
             if (button != null)
             {
+                button.onClick.RemoveAllListeners();
                 button.onClick.AddListener(OnBuildAreaCallback);
             }
         }
