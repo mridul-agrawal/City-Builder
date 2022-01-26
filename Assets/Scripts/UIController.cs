@@ -17,18 +17,49 @@ public class UIController : MonoBehaviour
     public Button openBuildMenuBtn;
     public Button demolishBtn;
 
+    public GameObject zonesPanel;
+    public GameObject facilitiesPanel;
+    public GameObject roadsPanel;
+    public Button closeBuildMenuBtn;
+
+    public GameObject buildButtonPrefab;
+
     // Start is called before the first frame update
     void Start()
     {
         cancleActionPanel.SetActive(false);
         buildingMenuPanel.SetActive(false);
-        buildResidentialAreaBtn.onClick.AddListener(OnBuildAreaCallback);
+        // buildResidentialAreaBtn.onClick.AddListener(OnBuildAreaCallback);
         cancleActionBtn.onClick.AddListener(OnCancleActionCallback);
         cancleActionBtn.onClick.AddListener(OnCancleActionCallback);
         openBuildMenuBtn.onClick.AddListener(OnOpenBuildMenu);
         demolishBtn.onClick.AddListener(OnDemolishHandler);
+        closeBuildMenuBtn.onClick.AddListener(OnCloseMenuHandler);
     }
 
+    private void PrepareBuildMenu()
+    {
+        CreateButtonsInPanel(zonesPanel.transform);
+        CreateButtonsInPanel(facilitiesPanel.transform);
+        CreateButtonsInPanel(roadsPanel.transform);
+    }
+
+    private void CreateButtonsInPanel(Transform panelTransform)
+    {
+        foreach (Transform child in panelTransform)
+        {
+            var button = child.GetComponent<Button>();
+            if (button != null)
+            {
+                button.onClick.AddListener(OnBuildAreaCallback);
+            }
+        }
+    }
+
+    private void OnCloseMenuHandler()
+    {
+        buildingMenuPanel.SetActive(false);
+    }
 
     private void OnOpenBuildMenu()
     {
@@ -39,13 +70,13 @@ public class UIController : MonoBehaviour
     {
         OnDemolishActionHandler?.Invoke();
         cancleActionPanel.SetActive(true);
-        buildingMenuPanel.SetActive(false);
+        OnCloseMenuHandler();
     }
 
     private void OnBuildAreaCallback()
     {
         cancleActionPanel.SetActive(true);
-        buildingMenuPanel.SetActive(false);
+        OnCloseMenuHandler();
         OnBuildAreaHandler?.Invoke();
     }
 
@@ -59,7 +90,6 @@ public class UIController : MonoBehaviour
     {
         OnBuildAreaHandler += listener;
     }
-
     public void RemoveListenerOnBuildAreaEvent(Action listener)
     {
         OnBuildAreaHandler -= listener;
@@ -68,17 +98,14 @@ public class UIController : MonoBehaviour
     {
         OnCancleActionHandler += listener;
     }
-
     public void RemoveListenerOnCancleActionEvent(Action listener)
     {
         OnCancleActionHandler -= listener;
     }
-
     public void AddListenerOnDemolishActionEvent(Action listener)
     {
         OnDemolishActionHandler += listener;
     }
-
     public void RemoveListenerOnDemolishActionEvent(Action listener)
     {
         OnDemolishActionHandler -= listener;
