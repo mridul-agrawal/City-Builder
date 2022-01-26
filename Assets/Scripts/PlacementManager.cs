@@ -41,39 +41,55 @@ public class PlacementManager : MonoBehaviour
         }
     }
 
-    public void ConfirmPlacement(IEnumerable<GameObject> structureCollection)
+    public void PlaceStructuresOnTheMap(IEnumerable<GameObject> structureCollection)
     {
         foreach (var structure in structureCollection)
         {
-            foreach (Transform child in structure.transform)
+            ResetBuildingMaterial(structure);
+        }
+        originalMaterials.Clear();
+    }
+
+    public void ResetBuildingMaterial(GameObject structure)
+    {
+        foreach (Transform child in structure.transform)
+        {
+            var renderer = child.GetComponent<MeshRenderer>();
+            if (originalMaterials.ContainsKey(child.gameObject))
             {
-                var renderer = child.GetComponent<MeshRenderer>();
-                if (originalMaterials.ContainsKey(child.gameObject))
-                {
-                    renderer.materials = originalMaterials[child.gameObject];
-                }
+                renderer.materials = originalMaterials[child.gameObject];
             }
         }
-        originalMaterials.Clear();
     }
 
-    public void CancelPlacement(IEnumerable<GameObject> structureCollection)
+    public void DestroyStructures(IEnumerable<GameObject> structureCollection)
     {
         foreach (var structure in structureCollection)
         {
-            Destroy(structure);
+            DestroySingleStructure(structure);
         }
         originalMaterials.Clear();
     }
 
-    public void RemoveBuilding(Vector3 gridPosition, GridStructure grid)
+    public void DestroySingleStructure(GameObject structure)
     {
-        var structure = grid.GetStructureFromTheGrid(gridPosition);
-        if (structure != null)
-        {
-            Destroy(structure);
-            grid.RemoveStructureFromTheGrid(gridPosition);
-        }
+        Destroy(structure);
+    }
+
+    //public void RemoveBuilding(Vector3 gridPosition, GridStructure grid)
+    //{
+    //    var structure = grid.GetStructureFromTheGrid(gridPosition);
+    //    if (structure != null)
+    //    {
+    //        Destroy(structure);
+    //        grid.RemoveStructureFromTheGrid(gridPosition);
+    //    }
+    //}
+
+    public void SetBuildingForDemolition(GameObject structureToDemolish)
+    {
+        Color colorToSet = Color.red;
+        ModifyStructurePrefabLook(structureToDemolish, colorToSet);
     }
 
 }

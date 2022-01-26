@@ -349,6 +349,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Ground: {fileID: 855045994}
+  transparentMaterial: {fileID: 2100000, guid: 19aeccfa875758143b1b8fc7176e8f84, type: 2}
 --- !u!4 &378243736
 Transform:
   m_ObjectHideFlags: 0
