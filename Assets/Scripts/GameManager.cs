@@ -76,6 +76,7 @@ public class GameManager : MonoBehaviour
         uiController.AddListenerOnBuildRoadEvent((structureName) => state.OnBuildRoad(structureName));
         uiController.AddListenerOnCancleActionEvent(() => state.OnCancel());
         uiController.AddListenerOnDemolishActionEvent(() => state.OnDemolishAction());
+        uiController.AddListenerOnConfirmActionEvent(() => state.OnConfirmAction());
     }
 
     private void HandleInput(Vector3 mousePosition)
