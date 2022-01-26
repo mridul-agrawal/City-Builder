@@ -15,12 +15,10 @@ public abstract class PlayerState
     public abstract void OnInputPointerUp();
     public abstract void OnInputPanChange(Vector3 position);
     public abstract void OnInputPanUp();
-
-    public virtual void EnterState()
+    public virtual void EnterState(string variable)
     {
 
     }
-
     public abstract void OnCancel();
 
 }
