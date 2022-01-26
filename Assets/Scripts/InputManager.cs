@@ -6,8 +6,9 @@ using UnityEngine.EventSystems;
 
 public class InputManager : MonoBehaviour, IInputManager
 {
-    private Action<Vector3> OnPointerSecondChangeHandler;
+    private Action<Vector3> OnPointerSecondDownHandler;
     private Action OnPointerSecondUpHandler;
+    private Action<Vector3> OnPointerSecondChangeHandler;
 
     private Action<Vector3> OnPointerDownHandler;
     private Action OnPointerUpHandler;
@@ -116,5 +117,12 @@ public class InputManager : MonoBehaviour, IInputManager
     {
         OnPointerChangeHandler -= listener;
     }
-
+    public void AddListenerOnPointerSecondDownEvent(Action<Vector3> listener)
+    {
+        OnPointerSecondDownHandler += listener;
+    }
+    public void RemoveListenerOnPointerSecondDownEvent(Action<Vector3> listener)
+    {
+        OnPointerSecondDownHandler -= listener;
+    }
 }

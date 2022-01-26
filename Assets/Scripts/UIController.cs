@@ -148,6 +148,10 @@ public class UIController : MonoBehaviour
     {
         OnBuildRoadHandler -= listener;
     }
+    public void AddListenerOnBuildSingleStructureEvent(Action<string> listener)
+    {
+        OnBuildSingleStructureHandler += listener;
+    }
     public void RemoveListenerOnBuildSingleStructureEvent(Action<string> listener)
     {
         OnBuildSingleStructureHandler -= listener;
