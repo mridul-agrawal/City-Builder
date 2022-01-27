@@ -6,24 +6,28 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    // References to important components of the game.
     public IInputManager inputManager;
     public UIController uiController;
     public PlacementManager placementManager;
-    public LayerMask inputMask;
     private BuildingManager buildingManager;
-    private int CellSize = 3;
-    public int width, length;
     public CameraMovement cameraMovement;
     public StructureRepository structureRepository;
 
+    // References to Grid property like Layer Mask and cell size.
+    public LayerMask inputMask;
+    private int CellSize = 3;
+    public int width, length;
+    
+    
+    // References to States.
     private PlayerState state;
     public PlayerState State { get => state; }
-
     public PlayerSelectionState selectionState;
     public PlayerBuildingSingleStructureState buildingSingleStructureState;
-    public PlayerDemolitionState demolishState;
     public PlayerBuildingRoadState buildingRoadState;
     public PlayerBuildingZoneState buildingAreaState;
+    public PlayerDemolitionState demolishState;
 
     private void Awake()
     {
