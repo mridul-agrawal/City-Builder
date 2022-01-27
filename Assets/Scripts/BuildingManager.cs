@@ -7,8 +7,8 @@ public class BuildingManager
     GridStructure grid;
     PlacementManager placementManager;
     StructureRepository structureRepository;
-    SingleStructurePlacementHelper singleStructurePlacementHelper;
-    StructureDemolitionHelper structureDemolitionHelper;
+    StructureModificationHelper singleStructurePlacementHelper;
+    StructureModificationHelper structureDemolitionHelper;
 
     public BuildingManager(int cellSize, int width, int length, PlacementManager placementManager, StructureRepository structureRepository)
     {
@@ -21,33 +21,33 @@ public class BuildingManager
 
     public void PrepareStructureForPlacement(Vector3 inputPosition, string structureName, StructureType structureType)
     {
-        singleStructurePlacementHelper.PrepareStructureForPlacement(inputPosition, structureName, structureType);
+        singleStructurePlacementHelper.PrepareStructureForModification(inputPosition, structureName, structureType);
     }
 
     public void ConfirmPlacement()
     {
-        singleStructurePlacementHelper.ConfirmPlacement();
+        singleStructurePlacementHelper.ConfirmModifications();
     }
 
     public void CancelPlacement()
     {
-        singleStructurePlacementHelper.CanclePlacement();
+        singleStructurePlacementHelper.CancelModifications();
     }
 
 
     public void PrepareStructureForDemolitionAt(Vector3 inputPosition)
     {
-        structureDemolitionHelper.PrepareStructureForDemolitionAt(inputPosition);
+        structureDemolitionHelper.PrepareStructureForModification(inputPosition, "", StructureType.None);
     }
 
     public void CancleDemolition()
     {
-        structureDemolitionHelper.CancleDemolition();
+        structureDemolitionHelper.CancelModifications();
     }
 
     public void ConfirmDemolition()
     {
-        structureDemolitionHelper.ConfirmDemolition();
+        structureDemolitionHelper.ConfirmModifications();
     }
 
     public GameObject CheckForStructureToModifyDictionary(Vector3 inputPostion)

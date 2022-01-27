@@ -77,6 +77,7 @@ public class StructureRepository : MonoBehaviour
 
 public enum StructureType
 {
+    None,
     Zone,
     SingleStructure,
     Road
