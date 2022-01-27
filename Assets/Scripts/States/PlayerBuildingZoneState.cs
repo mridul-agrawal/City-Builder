@@ -15,18 +15,19 @@ public class PlayerBuildingZoneState : PlayerState
     public override void OnConfirmAction()
     {
         base.OnConfirmAction();
-        this.buildingManager.ConfirmPlacement();
+        this.buildingManager.ConfirmModification();
     }
 
     public override void OnCancel()
     {
-        this.buildingManager.CancelPlacement();
+        this.buildingManager.CancelModification();
         this.gameManager.TransitionToState(this.gameManager.selectionState, null);
     }
 
     public override void EnterState(string structureName)
     {
         base.EnterState(structureName);
+        this.buildingManager.PrepareBuildingManager(this.GetType());
         this.structureName = structureName;
     }
 
@@ -39,14 +40,14 @@ public class PlayerBuildingZoneState : PlayerState
     public override void OnBuildSingleStructure(string structureName)
     {
         base.OnBuildSingleStructure(structureName);
-        this.buildingManager.CancelPlacement();
+        this.buildingManager.CancelModification();
     }
 
     public override void OnBuildRoad(string structureName)
     {
 
         base.OnBuildRoad(structureName);
-        this.buildingManager.CancelPlacement();
+        this.buildingManager.CancelModification();
     }
 
 }
