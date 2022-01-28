@@ -71,6 +71,12 @@ public class GridStructure
         grid[cellIndex.y, cellIndex.x].RemoveStructure();
     }
 
+    public StructureBaseSO GetStructureDataFromTheGrid(Vector3 gridPosition)
+    {
+        var cellIndex = CalculateGridIndex(gridPosition);
+        return grid[cellIndex.y, cellIndex.x].GetStructureData();
+    }
+
     public Vector3Int? GetPositionOfTheNeighbourIfExists(Vector3 gridPosition, Direction direction)
     {
         Vector3Int? neighbourPosition = Vector3Int.FloorToInt(gridPosition);
