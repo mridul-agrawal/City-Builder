@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class SingleStructurePlacementHelper : StructureModificationHelper
 {
-    public SingleStructurePlacementHelper(StructureRepository structureRepository, GridStructure grid, PlacementManager placementManager) : base(structureRepository, grid, placementManager)
+    public SingleStructurePlacementHelper(StructureRepository structureRepository, GridStructure grid, IPlacementManager placementManager) : base(structureRepository, grid, placementManager)
     {
 
     }
 
     public override void PrepareStructureForModification(Vector3 inputPosition, string structureName, StructureType structureType)
     {
-        GameObject buildingPrefab = this.structureRepository.GetBuildingPrefabByName(structureName, structureType);
+        base.PrepareStructureForModification(inputPosition, structureName, structureType);
+        //GameObject buildingPrefab = this.structureRepository.GetBuildingPrefabByName(structureName, structureType);
+        GameObject buildingPrefab = structureData.prefab;
         Vector3 gridPosition = grid.CalculateGridPosition(inputPosition);
         var gridPositionInt = Vector3Int.FloorToInt(gridPosition);
         if (grid.IsCellTaken(gridPosition) == false)
@@ -40,19 +42,4 @@ public class SingleStructurePlacementHelper : StructureModificationHelper
         structuresToBeModified.Remove(gridPositionInt);
     }
 
-    public override void ConfirmModifications()
-    {
-        placementManager.PlaceStructuresOnTheMap(structuresToBeModified.Values);
-        foreach (var keyValuePair in structuresToBeModified)
-        {
-            grid.PlaceStructureOnTheGrid(keyValuePair.Value, keyValuePair.Key);
-        }
-        structuresToBeModified.Clear();
-    }
-
-    public override void CancelModifications()
-    {
-        placementManager.DestroyStructures(structuresToBeModified.Values);
-        structuresToBeModified.Clear();
-    }
 }

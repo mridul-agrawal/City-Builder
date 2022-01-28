@@ -9,7 +9,8 @@ public class GameManager : MonoBehaviour
     // References to important components of the game.
     public IInputManager inputManager;
     public UIController uiController;
-    public PlacementManager placementManager;
+    public GameObject placementManagerGameObject;
+    private IPlacementManager placementManager;
     private BuildingManager buildingManager;
     public CameraMovement cameraMovement;
     public StructureRepository structureRepository;
@@ -42,7 +43,7 @@ public class GameManager : MonoBehaviour
 
     private void PrepareStates()
     {
-        buildingManager = new BuildingManager(CellSize, width, length, placementManager,structureRepository);
+        buildingManager = new BuildingManager(CellSize, width, length, placementManager, structureRepository);
         selectionState = new PlayerSelectionState(this);
         demolishState = new PlayerDemolitionState(this, buildingManager);
         buildingSingleStructureState = new PlayerBuildingSingleStructureState(this, buildingManager);
@@ -54,6 +55,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        placementManager = placementManagerGameObject.GetComponent<IPlacementManager>();
+        PrepareStates();
         PrepareGameObjects();
         AssignInputListeners();
         AssignUIListeners();

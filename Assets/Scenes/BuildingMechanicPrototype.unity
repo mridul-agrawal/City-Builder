@@ -564,14 +564,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiController: {fileID: 1762071956}
-  placementManager: {fileID: 378243735}
+  placementManagerGameObject: {fileID: 378243734}
+  cameraMovement: {fileID: 1522878020}
+  structureRepository: {fileID: 1717269285}
   inputMask:
     serializedVersion: 2
     m_Bits: 128
   width: 100
   length: 100
-  cameraMovement: {fileID: 1522878020}
-  structureRepository: {fileID: 1717269285}
 --- !u!4 &883541949
 Transform:
   m_ObjectHideFlags: 0

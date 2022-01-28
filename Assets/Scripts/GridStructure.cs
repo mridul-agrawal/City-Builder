@@ -45,12 +45,12 @@ public class GridStructure
         throw new IndexOutOfRangeException("No index " + cellIndex + " in the grid.");
     }
 
-    public void PlaceStructureOnTheGrid(GameObject Structure, Vector3 gridPosition)
+    public void PlaceStructureOnTheGrid(GameObject Structure, Vector3 gridPosition, StructureBaseSO structureData)
     {
         var cellIndex = CalculateGridIndex(gridPosition);
         if (CheckIndexValidity(cellIndex))
         {
-            grid[cellIndex.y, cellIndex.x].SetConstruction(Structure);
+            grid[cellIndex.y, cellIndex.x].SetConstruction(Structure, structureData);
         }
     }
 
@@ -71,4 +71,39 @@ public class GridStructure
         grid[cellIndex.y, cellIndex.x].RemoveStructure();
     }
 
+    public Vector3Int? GetPositionOfTheNeighbourIfExists(Vector3 gridPosition, Direction direction)
+    {
+        Vector3Int? neighbourPosition = Vector3Int.FloorToInt(gridPosition);
+        switch (direction)
+        {
+            case Direction.Up:
+                neighbourPosition += new Vector3Int(0, 0, CellSize);
+                break;
+            case Direction.Right:
+                neighbourPosition += new Vector3Int(CellSize, 0, 0);
+                break;
+            case Direction.Down:
+                neighbourPosition += new Vector3Int(0, 0, -CellSize);
+                break;
+            case Direction.Left:
+                neighbourPosition += new Vector3Int(-CellSize, 0, 0);
+                break;
+        }
+        var index = CalculateGridIndex(neighbourPosition.Value);
+        if (CheckIndexValidity(index) == false)
+        {
+            return null;
+        }
+        return neighbourPosition;
+    }
+
+}
+
+
+public enum Direction
+{
+    Up = 1,
+    Right = 2,
+    Down = 4,
+    Left = 8
 }

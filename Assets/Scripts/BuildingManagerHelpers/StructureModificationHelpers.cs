@@ -7,9 +7,10 @@ public abstract class StructureModificationHelper
     protected Dictionary<Vector3Int, GameObject> structuresToBeModified = new Dictionary<Vector3Int, GameObject>();
     protected readonly StructureRepository structureRepository;
     protected readonly GridStructure grid;
-    protected readonly PlacementManager placementManager;
+    protected readonly IPlacementManager placementManager;
+    protected StructureBaseSO structureData;
 
-    public StructureModificationHelper(StructureRepository structureRepository, GridStructure grid, PlacementManager placementManager)
+    public StructureModificationHelper(StructureRepository structureRepository, GridStructure grid, IPlacementManager placementManager)
     {
         this.structureRepository = structureRepository;
         this.grid = grid;
@@ -26,7 +27,33 @@ public abstract class StructureModificationHelper
         return null;
     }
 
-    public abstract void CancelModifications();
-    public abstract void ConfirmModifications();
-    public abstract void PrepareStructureForModification(Vector3 inputPosition, string structureName, StructureType structureType);
+    public virtual void ConfirmModifications()
+    {
+        placementManager.PlaceStructuresOnTheMap(structuresToBeModified.Values);
+        foreach (var keyValuePair in structuresToBeModified)
+        {
+            grid.PlaceStructureOnTheGrid(keyValuePair.Value, keyValuePair.Key, GameObject.Instantiate(structureData));
+        }
+        ResetHelpersData();
+    }
+
+    public virtual void CancelModifications()
+    {
+        placementManager.DestroyStructures(structuresToBeModified.Values);
+        ResetHelpersData();
+    }
+
+    public virtual void PrepareStructureForModification(Vector3 inputPosition, string structureName, StructureType structureType)
+    {
+        if (structureData == null && structureType != StructureType.None)
+        {
+            structureData = this.structureRepository.GetStructureData(structureName, structureType);
+        }
+    }
+
+    protected void ResetHelpersData()
+    {
+        structureData = null;
+        structuresToBeModified.Clear();
+    }
 }
