@@ -42,7 +42,6 @@ public abstract class StructureModificationHelper
         placementManager.DestroyStructures(structuresToBeModified.Values);
         ResetHelpersData();
     }
-
     public virtual void PrepareStructureForModification(Vector3 inputPosition, string structureName, StructureType structureType)
     {
         if (structureData == null && structureType != StructureType.None)
@@ -55,5 +54,10 @@ public abstract class StructureModificationHelper
     {
         structureData = null;
         structuresToBeModified.Clear();
+    }
+
+    public virtual void StopContinuousPlacement()
+    {
+
     }
 }

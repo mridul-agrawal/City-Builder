@@ -55,4 +55,9 @@ public class BuildingManager
         return structureToReturn;
     }
 
+    public void StopContinuousPlacement()
+    {
+        helper.StopContinuousPlacement();
+    }
+
 }

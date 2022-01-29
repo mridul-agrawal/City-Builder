@@ -104,4 +104,14 @@ public class PlacementManager : MonoBehaviour, IPlacementManager
         ModifyStructurePrefabLook(structureToDemolish, colorToSet);
     }
 
+    public GameObject MoveStructureOnTheMap(Vector3Int positionToPlaceStructure, GameObject gameObjectToReuse, GameObject prefab)
+    {
+        gameObjectToReuse.transform.position = positionToPlaceStructure;
+        gameObjectToReuse.transform.rotation = prefab.transform.rotation;
+        for (int i = 0; i < gameObjectToReuse.transform.childCount; i++)
+        {
+            gameObjectToReuse.transform.GetChild(i).rotation = prefab.transform.GetChild(i).rotation;
+        }
+        return gameObjectToReuse;
+    }
 }
