@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +11,9 @@ public class ZonePlacementHelper : StructureModificationHelper
     bool startPositionAcquired = false;
     Vector3 mapBottomLeftCorner;
     Queue<GameObject> gameObjectsToReuse = new Queue<GameObject>();
-    public ZonePlacementHelper(StructureRepository structureRepository, GridStructure grid, IPlacementManager placementManager, Vector3 mapBottomLeftCorner, ResourceManager resourceManager) : base(structureRepository, grid, placementManager, resourceManager)
+    private int structuresOldQuantity = 0;
+
+    public ZonePlacementHelper(StructureRepository structureRepository, GridStructure grid, IPlacementManager placementManager, Vector3 mapBottomLeftCorner, IResourceManager resourceManager) : base(structureRepository, grid, placementManager, resourceManager)
     {
         this.mapBottomLeftCorner = mapBottomLeftCorner;
     }
@@ -37,6 +41,9 @@ public class ZonePlacementHelper : StructureModificationHelper
 
         ZoneCalculator.PrepareStartAndEndPosition(startPosition, endPosition, ref minPoint, ref maxPoint, mapBottomLeftCorner);
         HashSet<Vector3Int> newPositionsSet = grid.GetAllPositionsFromTo(minPoint, maxPoint);
+
+        newPositionsSet = CalculateZoneCost(newPositionsSet);
+
         previousEndPositon = endPosition;
         ZoneCalculator.CalculateZone(newPositionsSet, structuresToBeModified, gameObjectsToReuse);
 
@@ -63,8 +70,26 @@ public class ZonePlacementHelper : StructureModificationHelper
 
     }
 
+    private HashSet<Vector3Int> CalculateZoneCost(HashSet<Vector3Int> newPositionsSet)
+    {
+        resourceManager.AddMoney(structuresOldQuantity * structureData.placementCost);
+
+        int numberToPlace = resourceManager.HowManyStructuresCanIPlace(structureData.placementCost, newPositionsSet.Count);
+
+        if (numberToPlace < newPositionsSet.Count)
+        {
+
+            newPositionsSet = new HashSet<Vector3Int>(newPositionsSet.Take(numberToPlace).ToList());
+        }
+        structuresOldQuantity = newPositionsSet.Count;
+        resourceManager.SpendMoney(structuresOldQuantity * structureData.placementCost);
+        Debug.Log(structuresOldQuantity);
+        return newPositionsSet;
+    }
+
     public override void CancelModifications()
     {
+        resourceManager.AddMoney(structuresOldQuantity * structureData.placementCost);
         base.CancelModifications();
         ResetZonePlacementHelper();
     }
@@ -77,6 +102,7 @@ public class ZonePlacementHelper : StructureModificationHelper
 
     private void ResetZonePlacementHelper()
     {
+        structuresOldQuantity = 0;
         placementManager.DestroyStructures(gameObjectsToReuse);
         gameObjectsToReuse.Clear();
         startPositionAcquired = false;
