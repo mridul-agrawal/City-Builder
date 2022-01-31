@@ -8,8 +8,15 @@ public abstract class StructureBaseSO : ScriptableObject
     public GameObject prefab;
     public int placementCost;
     public int upkeepCost;
-    public int income;
+    [SerializeField]
+    private int income;
     public bool requireRoadAccess;
     public bool requireWater;
     public bool requirePower;
+
+    public virtual int GetIncome()
+    {
+        return income;
+    }
+
 }

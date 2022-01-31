@@ -10,12 +10,12 @@ public class BuildingManager
     StructureRepository structureRepository;
     StructureModificationHelper helper;
 
-    public BuildingManager(int cellSize, int width, int length, IPlacementManager placementManager, StructureRepository structureRepository)
+    public BuildingManager(int cellSize, int width, int length, IPlacementManager placementManager, StructureRepository structureRepository, ResourceManager resourceManager)
     {
         this.grid = new GridStructure(cellSize, width, length);
         this.placementManager = placementManager;
         this.structureRepository = structureRepository;
-        StructureModificationFactory.PrepareFactory(structureRepository, grid, placementManager);
+        StructureModificationFactory.PrepareFactory(structureRepository, grid, placementManager, resourceManager);
     }
 
     public void PrepareBuildingManager(Type classType)
@@ -32,6 +32,11 @@ public class BuildingManager
     public void ConfirmModification()
     {
         helper.ConfirmModifications();
+    }
+
+    public IEnumerable<StructureBaseSO> GetAllStructures()
+    {
+        return grid.GetAllStructures();
     }
 
     public void CancelModification()

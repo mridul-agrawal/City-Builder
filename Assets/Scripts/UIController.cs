@@ -30,6 +30,8 @@ public class UIController : MonoBehaviour
 
     public GameObject buildButtonPrefab;
 
+    public TextMeshProUGUI moneyValue;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -124,6 +126,17 @@ public class UIController : MonoBehaviour
         cancleActionPanel.SetActive(false);
         OnCancleActionHandler?.Invoke();
     }
+
+
+
+    public void SetMoneyValue(int money)
+    {
+        moneyValue.text = money + "";
+    }
+
+
+
+
 
     public void AddListenerOnBuildAreaEvent(Action<string> listener)
     {

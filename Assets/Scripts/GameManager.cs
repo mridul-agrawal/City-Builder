@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     private BuildingManager buildingManager;
     public CameraMovement cameraMovement;
     public StructureRepository structureRepository;
+    public ResourceManager resourceManager;
 
     // References to Grid property like Layer Mask and cell size.
     public LayerMask inputMask;
@@ -43,7 +44,7 @@ public class GameManager : MonoBehaviour
 
     private void PrepareStates()
     {
-        buildingManager = new BuildingManager(CellSize, width, length, placementManager, structureRepository);
+        buildingManager = new BuildingManager(CellSize, width, length, placementManager, structureRepository, resourceManager);
         selectionState = new PlayerSelectionState(this);
         demolishState = new PlayerDemolitionState(this, buildingManager);
         buildingSingleStructureState = new PlayerBuildingSingleStructureState(this, buildingManager);

@@ -118,6 +118,25 @@ public class GridStructure
         return neighbourPosition;
     }
 
+
+    public IEnumerable<StructureBaseSO> GetAllStructures()
+    {
+        List<StructureBaseSO> structureData = new List<StructureBaseSO>();
+        for (int row = 0; row < grid.GetLength(0); row++)
+        {
+            for (int col = 0; col < grid.GetLength(1); col++)
+            {
+                var data = grid[row, col].GetStructureData();
+                if (data != null)
+                {
+                    structureData.Add(data);
+                }
+            }
+        }
+        return structureData;
+    }
+
+
 }
 
 
