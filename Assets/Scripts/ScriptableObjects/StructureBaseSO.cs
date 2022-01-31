@@ -9,7 +9,7 @@ public abstract class StructureBaseSO : ScriptableObject
     public int placementCost;
     public int upkeepCost;
     [SerializeField]
-    private int income;
+    protected int income;
     public bool requireRoadAccess;
     public bool requireWater;
     public bool requirePower;

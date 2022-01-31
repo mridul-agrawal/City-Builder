@@ -209,6 +209,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 874f486657469ea41b46d2f073955c07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startMoneyAmount: 5000
+  demolitionPrice: 20
+  moneyCalculationInterval: 2
   uiController: {fileID: 1762071956}
 --- !u!4 &13794973
 Transform:
@@ -611,7 +614,7 @@ MonoBehaviour:
   placementManagerGameObject: {fileID: 378243734}
   cameraMovement: {fileID: 1522878020}
   structureRepository: {fileID: 1717269285}
-  resourceManager: {fileID: 13794972}
+  resourceManagerGameObject: {fileID: 13794971}
   inputMask:
     serializedVersion: 2
     m_Bits: 128
