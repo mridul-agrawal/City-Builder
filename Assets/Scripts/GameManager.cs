@@ -14,7 +14,8 @@ public class GameManager : MonoBehaviour
     private BuildingManager buildingManager;
     public CameraMovement cameraMovement;
     public StructureRepository structureRepository;
-    public ResourceManager resourceManager;
+    public GameObject resourceManagerGameObject;
+    private IResourceManager resourceManager;
 
     // References to Grid property like Layer Mask and cell size.
     public LayerMask inputMask;
@@ -33,7 +34,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        PrepareStates();
+
 #if (UNITY_EDITOR && TEST) || !(UNITY_IOS || UNITY_ANDROID)
         inputManager = gameObject.AddComponent<InputManager>();
 #endif
@@ -45,6 +46,7 @@ public class GameManager : MonoBehaviour
     private void PrepareStates()
     {
         buildingManager = new BuildingManager(CellSize, width, length, placementManager, structureRepository, resourceManager);
+        resourceManager.PrepareResourceManager(buildingManager);
         selectionState = new PlayerSelectionState(this);
         demolishState = new PlayerDemolitionState(this, buildingManager);
         buildingSingleStructureState = new PlayerBuildingSingleStructureState(this, buildingManager);
@@ -57,6 +59,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         placementManager = placementManagerGameObject.GetComponent<IPlacementManager>();
+        resourceManager = resourceManagerGameObject.GetComponent<IResourceManager>();
         PrepareStates();
         PrepareGameObjects();
         AssignInputListeners();
