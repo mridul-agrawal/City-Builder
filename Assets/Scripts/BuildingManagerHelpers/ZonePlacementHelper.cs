@@ -83,7 +83,6 @@ public class ZonePlacementHelper : StructureModificationHelper
         }
         structuresOldQuantity = newPositionsSet.Count;
         resourceManager.SpendMoney(structuresOldQuantity * structureData.placementCost);
-        Debug.Log(structuresOldQuantity);
         return newPositionsSet;
     }
 
@@ -96,6 +95,10 @@ public class ZonePlacementHelper : StructureModificationHelper
 
     public override void ConfirmModifications()
     {
+        if (structureData.GetType() == typeof(ZoneStructureSO) && ((ZoneStructureSO)structureData).zoneType == ZoneType.Residential)
+        {
+            resourceManager.AddToPopulation(structuresToBeModified.Count);
+        }
         base.ConfirmModifications();
         ResetZonePlacementHelper();
     }
