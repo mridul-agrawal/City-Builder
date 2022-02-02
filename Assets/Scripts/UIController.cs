@@ -25,6 +25,12 @@ public class UIController : MonoBehaviour
 
     public GameObject zonesPanel;
     public GameObject facilitiesPanel;
+
+    public void HideStructureInfo()
+    {
+        structurePanelHelper.Hide();
+    }
+
     public GameObject roadsPanel;
     public Button closeBuildMenuBtn;
 
@@ -54,6 +60,11 @@ public class UIController : MonoBehaviour
     {
         cancleActionPanel.SetActive(false);
         OnConfirmActionHandler?.Invoke();
+    }
+
+    public bool GetStructureInfoVisibility()
+    {
+        return structurePanelHelper.gameObject.activeSelf;
     }
 
     private void PrepareBuildMenu()
@@ -129,6 +140,22 @@ public class UIController : MonoBehaviour
         PrepareUIForBuilding();
         OnBuildAreaHandler?.Invoke(nameOfStructure);
     }
+
+    public void DisplayBasicStructureInfo(StructureBaseSO data)
+    {
+        structurePanelHelper.DisplayBasicStructureInfo(data);
+    }
+
+    public void DisplayZoneStructureInfo(ZoneStructureSO data)
+    {
+        structurePanelHelper.DisplayZoneStructureInfo(data);
+    }
+
+    public void DisplayFacilitStructureInfo(SingleFacilitySO data)
+    {
+        structurePanelHelper.DisplayFacilityStructureInfo(data);
+    }
+
 
     private void OnCancleActionCallback()
     {
