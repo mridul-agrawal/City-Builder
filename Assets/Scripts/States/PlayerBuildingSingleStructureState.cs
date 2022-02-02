@@ -28,6 +28,12 @@ public class PlayerBuildingSingleStructureState : PlayerState
         this.gameManager.TransitionToState(this.gameManager.selectionState, null);
     }
 
+    public override void OnDemolishAction()
+    {
+        this.buildingManager.CancelModification();
+        base.OnDemolishAction();
+    }
+
     public override void EnterState(string structureName)
     {
         base.EnterState(structureName);
