@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,7 @@ public class StructureDemolitionHelper : StructureModificationHelper
     {
         foreach (var gridPosition in structuresToBeModified.Keys)
         {
+            PrepareStructureForDemolition(gridPosition);
             grid.RemoveStructureFromTheGrid(gridPosition);
         }
         foreach (var keyVeluPair in roadToDemolish)
@@ -79,6 +81,21 @@ public class StructureDemolitionHelper : StructureModificationHelper
         if (RoadManager.CheckIfNeighbourIsRoadOnTheGrid(grid, gridPositionInt) && roadToDemolish.ContainsKey(gridPositionInt))
         {
             roadToDemolish.Remove(gridPositionInt);
+        }
+    }
+
+    private void PrepareStructureForDemolition(Vector3Int gridPosition)
+    {
+        var data = grid.GetStructureDataFromTheGrid(gridPosition);
+        if (data != null)
+        {
+
+            Type dataType = data.GetType();
+            if (dataType == typeof(ZoneStructureSO) && ((ZoneStructureSO)data).zoneType == ZoneType.Residential)
+            {
+                resourceManager.ReducePopulation(1);
+            }
+            StructureEconomyManager.DemolitionStructureLogic(dataType, gridPosition, grid);
         }
     }
 
